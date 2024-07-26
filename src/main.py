@@ -1,13 +1,7 @@
-
-
-
-
-# import modules used here -- sys is a very standard one
 import sys, argparse, logging
 import demucs.separate
 import pytube
 
-# Gather our code in a main() function
 def main(args, loglevel):
     logging.basicConfig(format="%(levelname)s: %(message)s", level=loglevel)
 
@@ -29,10 +23,7 @@ def main(args, loglevel):
     #     for stem, source in sources.items():
     #         demucs.api.save_audio(source, f"{stem}_{file}", samplerate=separator.samplerate)
     
-    
- 
-# Standard boilerplate to call the main() function to begin
-# the program.
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser( 
                                     prog='TabIt',
