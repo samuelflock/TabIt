@@ -1,6 +1,6 @@
 import demucs.separate
 import demucs
-import demucs.utils
+import pytube
 
 #demucs.separate.main(["--mp3", "-n", "mdx_extra", "./music/FileName.mp3"])
 demucs.separate.main(["--mp3", "-n", "htdemucs_6s", "./music/FileName.mp3"])
