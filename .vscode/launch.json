@@ -17,7 +17,15 @@
             "request": "launch",
             "program": "src/main.py",
             "console": "integratedTerminal",
-            "args": "'../music/File Name.mp3'"
+            "args": "'../music/File Name.mp3' -v"
+        },
+        {
+            "name": "Python Debugger: Using YouTube",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/main.py",
+            "console": "integratedTerminal",
+            "args": "'https://www.youtube.com/watch?v=VI4ssGtfdxw' -v"
         }
     ]
 }

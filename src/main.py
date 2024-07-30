@@ -1,6 +1,7 @@
 import sys, argparse, logging
 import demucs.separate
-import pytube
+from pytubefix import YouTube
+from pytubefix.cli import on_progress
 
 def main(args, loglevel):
     logging.basicConfig(format="%(levelname)s: %(message)s", level=loglevel)
@@ -8,12 +9,34 @@ def main(args, loglevel):
     logging.info("Beginning Seperation")
     logging.debug("Chosen Source: %s" % args.source)
     logging.debug("Chosen Model: %s" % args.model)
-  
-    #demucs.separate.main(["--mp3", "-n", "mdx_extra", "./music/FileName.mp3"])
-    #demucs.separate.main(["--mp3", "-n", "htdemucs_6s", "./music/FileName.mp3"])
-    demucs.separate.main(["--mp3", "-n", args.model, args.source])
 
-    logging.info("Completed Seperation")
+    source_name = None
+
+    if(args.source.startswith("https:") or args.source.startswith("http:")):
+        try:
+            logging.info("Hyperlink Detected")
+
+            yt = YouTube(args.source, on_progress_callback=on_progress)
+
+            source_name = yt.title + ".mp3"
+
+            audio_steam = yt.streams.get_audio_only()
+            audio_steam.download(mp3=True, output_path="./music")
+
+            logging.info("YouTube Audio Downloaded")
+        except Exception as e:
+            logging.debug("Failure to download from YouTube: " + e)
+
+
+
+
+    try:
+        #demucs.separate.main(["--mp3", "-n", "mdx_extra", "./music/FileName.mp3"])
+        #demucs.separate.main(["--mp3", "-n", "htdemucs_6s", "./music/FileName.mp3"])
+        demucs.separate.main(["--mp3", "-n", args.model, "./music/" + source_name])
+        logging.info("Completed Seperation")
+    except:
+        logging.debug("Failure to use local mp3")
 
     # separator = demucs.Separator()
 
@@ -33,7 +56,7 @@ if __name__ == '__main__':
     # Arguments (Source, Model, Verbose)
     parser.add_argument('source',
                         type=str,
-                        help='requires mp3 file path')
+                        help='requires mp3 file path or full link to YouTube')
     parser.add_argument("-m", "--model",
                         type=str,
                         default='htdemucs_6s',
@@ -56,6 +79,7 @@ if __name__ == '__main__':
     
         main(args, loglevel)
 
-    except:
+    except Exception as e:
+        logging.debug("Main Exited with Error: " + e)
         pass
   
