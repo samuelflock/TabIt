@@ -10,7 +10,7 @@ def main(args, loglevel):
     logging.debug("Chosen Source: %s" % args.source)
     logging.debug("Chosen Model: %s" % args.model)
 
-    source_name = None
+    source_name = args.source
 
     if(args.source.startswith("https:") or args.source.startswith("http:")):
         try:
@@ -46,12 +46,10 @@ def main(args, loglevel):
     #     for stem, source in sources.items():
     #         demucs.api.save_audio(source, f"{stem}_{file}", samplerate=separator.samplerate)
     
-
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser( 
-                                    prog='TabIt',
-                                    description = 'Converts Audio into Guitar Tablature',
-                                    epilog = "Epilogue to help (TODO: Update Later)")
+    parser = argparse.ArgumentParser(prog='TabIt',
+                                     description = 'Converts Audio into Guitar Tablature',
+                                     epilog = "Epilogue to help (TODO: Update Later)")
     
     # Arguments (Source, Model, Verbose)
     parser.add_argument('source',
@@ -61,11 +59,10 @@ if __name__ == '__main__':
                         type=str,
                         default='htdemucs_6s',
                         help='list of available models in TODO')
-    parser.add_argument(
-                      "-v",
-                      "--verbose",
-                      help="increase output verbosity",
-                      action="store_true")
+    parser.add_argument("-v",
+                        "--verbose",
+                        help="increase output verbosity",
+                        action="store_true")
     
     # Read User Arguments
     try:
