@@ -1,7 +1,10 @@
 import sys, argparse, logging
+import os
 import demucs.separate
 from pytubefix import YouTube
 from pytubefix.cli import on_progress
+from basic_pitch.inference import predict_and_save, Model
+from basic_pitch import ICASSP_2022_MODEL_PATH
 
 def main(args, loglevel):
     logging.basicConfig(format="%(levelname)s: %(message)s", level=loglevel)
@@ -10,6 +13,7 @@ def main(args, loglevel):
     logging.debug("Chosen Source: %s" % args.source)
     logging.debug("Chosen Model: %s" % args.model)
 
+    source_title = args.source
     source_name = args.source
 
     if(args.source.startswith("https:") or args.source.startswith("http:")):
@@ -18,6 +22,7 @@ def main(args, loglevel):
 
             yt = YouTube(args.source, on_progress_callback=on_progress)
 
+            source_title = yt.title
             source_name = yt.title + ".mp3"
 
             audio_steam = yt.streams.get_audio_only()
@@ -38,13 +43,16 @@ def main(args, loglevel):
     except:
         logging.debug("Failure to use local mp3")
 
-    # separator = demucs.Separator()
-
-    # origin, separated = separator.separate_audio_file("~/Downloads/FileName.mp3")
-
-    # for file, sources in separated:
-    #     for stem, source in sources.items():
-    #         demucs.api.save_audio(source, f"{stem}_{file}", samplerate=separator.samplerate)
+    prediction_string = ["./separated/" + args.model + "/" + source_title + "/guitar.mp3"]
+    predict_and_save(prediction_string,
+                     "./output/",
+                     save_midi=True,
+                     sonify_midi=False,
+                     save_model_outputs=False,
+                     save_notes=False,
+                     model_or_model_path=Model(ICASSP_2022_MODEL_PATH))
+    
+    os.rename("./output/guitar_basic_pitch.mid", "./output/guitar_" + source_title + ".mid")
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='TabIt',
