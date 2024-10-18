@@ -15,17 +15,17 @@
             "name": "Python Debugger: Using MP3",
             "type": "debugpy",
             "request": "launch",
-            "program": "src/main.py",
+            "program": "TabIt",
             "console": "integratedTerminal",
-            "args": "'../music/File Name.mp3' -v"
+            "args": ["../music/File Name.mp3", "-v"]
         },
         {
             "name": "Python Debugger: Using YouTube",
             "type": "debugpy",
             "request": "launch",
-            "program": "src/main.py",
+            "program": "TabIt",
             "console": "integratedTerminal",
-            "args": "'https://www.youtube.com/watch?v=VI4ssGtfdxw' -v"
+            "args": ["https://www.youtube.com/watch?app=desktop&v=WOEJbo4XZFU", "-v"]
         }
     ]
 }
