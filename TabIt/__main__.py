@@ -8,8 +8,8 @@ def main(args, loglevel):
     logging.debug("Chosen Source: %s" % args.source)
     logging.debug("Chosen Model: %s" % args.model)
 
-    app = App(args.source, args.model)
-    print(app.get_source())
+    app = App()
+    app.run(args.source, args.model)
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='TabIt',
